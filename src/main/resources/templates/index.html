@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderPic</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <!-- <div class="map-container">
+        <img th:src="@{/images/map.jpg}">
+    </div> -->
+
+    <div id="mapid" style="width: 800px; height: 600px;"></div>
+    <script th:inline="javascript">
+        var mymap = L.map('mapid').setView([36.5, 127.5], 7);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(mymap);
+
+        fetch('/api/geojson')
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                L.geoJSON(data, {
+                    style: function (feature) {
+                        return {color: feature.properties.color};
+                    }
+                }).addTo(mymap);
+            });
+    </script>
+
+    
+</body>
+</html>
