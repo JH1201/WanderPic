@@ -19,7 +19,7 @@ public class GeoJsonController {
     @GetMapping("/api/geojson")
     public ResponseEntity<Resource> getGeoJson() {
         // 경로를 'static/sig.json'으로 변경
-        Resource resource = resourceLoader.getResource("classpath:static/sig.json");
+        Resource resource = resourceLoader.getResource("classpath:static/ctprvn-wgs84.json");
         return ResponseEntity.ok()
                              .contentType(MediaType.APPLICATION_JSON)
                              .body(resource);
