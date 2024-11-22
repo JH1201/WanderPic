@@ -19,7 +19,7 @@
 
         var map = new kakao.maps.Map(mapContainer, mapOption);
 
-        fetch('/api/geojson')
+        fetch('/api/sig_geojson')
         .then(function(response) {
             return response.json();
         })
@@ -90,13 +90,22 @@
                             map.setLevel(map_level, {anchor: mouseEvent.latLng, animate: {duration: 300}});
                         }
                     });
-                    polygons.push(polygon);
+                    //polygons.push(polygon);
+
                     
                 });
             });
+
+            function removePolygons() {
+            polygons.forEach(function(polygon) {
+                polygon.setMap(null); // 폴리곤 지도에서 제거
+            });
+            polygons = []; // 배열 초기화
+        }
         })
         .catch(error => console.error('GeoJSON 데이터 로드 실패:', error));
 
+        
     </script>
 </body>
 </html>
