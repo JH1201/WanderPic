@@ -33,4 +33,6 @@ public class GeoJsonController {
                              .contentType(MediaType.APPLICATION_JSON)
                              .body(resource);
     }
+
+   
 }
