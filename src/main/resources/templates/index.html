@@ -1,42 +1,63 @@
 <!DOCTYPE html>
 <html xmlns="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WanderPic</title>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=85be5e15a889324a45a7aa4afb743688&libraries=services"></script>
+    <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=85be5e15a889324a45a7aa4afb743688&libraries=services"></script>
     <script src="js/polygon.js"></script>
 </head>
+
 <body>
+    <div class="container">
 
-    <div id="kmap" style="width: 70%; height: 98vh;"></div>
-    <script>
-        var mapContainer = document.getElementById('kmap'),
-            mapOption = {
-                center: new kakao.maps.LatLng(36.3578, 127.3867), // 대전의 위도, 경도
-                level: 12
-            };
+        <div id="kmap" style="float: left; width: 70%; height: 98vh;"></div>
+        <script>
+            var mapContainer = document.getElementById('kmap'),
+                mapOption = {
+                    center: new kakao.maps.LatLng(36.3578, 127.3867), // 대전의 위도, 경도
+                    level: 12
+                };
 
-        var map = new kakao.maps.Map(mapContainer, mapOption);
+            var map = new kakao.maps.Map(mapContainer, mapOption);
 
-        init('/api/ctprvn_geojson');
+            map.setMaxLevel(13);
 
-        let detailMode = false; // level에 따라 다른 json 파일 사용
-        kakao.maps.event.addListener(map, 'zoom_changed', function () {
-            level = map.getLevel()
-            console.log("zoom changed!");
-            console.log(level);
+            init('/api/ctprvn_geojson');
 
-            if (level == 11) { // level 에 따라 다른 json 파일을 사용한다.
-                detailMode = true;
-                removePolygons();
-                init("/api/ctprvn_geojson");
-            } else if (level == 10) { // level 에 따라 다른 json 파일을 사용한다.
-                detailMode = false;
-                removePolygons();
-                init("/api/sig_geojson");
-            }
-        });
-    </script>
+            let detailMode = false; // level에 따라 다른 json 파일 사용
+            kakao.maps.event.addListener(map, 'zoom_changed', function () {
+                level = map.getLevel()
+                console.log("zoom changed!");
+                console.log(level);
+
+                if (level == 11) { // level 에 따라 다른 json 파일을 사용한다.
+                    detailMode = true;
+                    removePolygons();
+                    init("/api/ctprvn_geojson");
+                } else if (level == 10 || level == 9 || level == 8) { // level 에 따라 다른 json 파일을 사용한다. / level을 세분화 한 이유는 Level이 11에서 10을 안거치고 9로 갔을 때 이 단계를 건너뛰기 때문에 세분화함
+                    detailMode = false;
+                    removePolygons();
+                    init("/api/sig_geojson");
+                }
+            });
+        </script>
+
+
+        <div calss="leftContainer" style="float: left; width: 30%; height: 98vh;">
+            <div>
+                <form id="uploadForm"  enctype="multipart/form-data">
+                    <input type="file" id="fileInput" name="file" />
+                    <button type="submit">Upload</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+
+
 </body>
+
 </html>

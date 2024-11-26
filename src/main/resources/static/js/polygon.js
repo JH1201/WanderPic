@@ -58,6 +58,7 @@ function init(path) {
                     var map_level = map.getLevel();
 
 
+                    /*
                     // 폴리곤 클릭 시 확대
                     kakao.maps.event.addListener(polygon, 'click', function (mouseEvent) {
 
@@ -75,6 +76,13 @@ function init(path) {
                             init("/api/ctprvn_geojson");
                         }
                     });
+                    */
+
+                    // 폴리곤 클릭 시 
+                    kakao.maps.event.addListener(polygon, 'click', function (mouseEvent) {
+                        document.getElementById('fileInput').click();
+                    });     
+                    
                     polygons.push(polygon);
                 });
 
